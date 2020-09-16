@@ -1,10 +1,16 @@
-cmake_minimum_required( VERSION 3.5.1 )
+cmake_minimum_required( VERSION 3.14.1 )
 project( HelloTriangle )
+
+# New&Nice cmake
 
 find_package(Vulkan)
 message(STATUS "Vulkan_FOUND : ${Vulkan_FOUND}")
 message(STATUS "Vulkan_INCLUDE_DIRS : ${Vulkan_INCLUDE_DIRS}")
 message(STATUS "Vulkan_LIBRARIES : ${Vulkan_LIBRARIES}")
+message(STATUS "Vulkan_GLSLC_EXECUTABLE : ${Vulkan_GLSLC_EXECUTABLE}")
+
+
+# Old&Ugly cmake
 
 set( TODO ON CACHE BOOL "Enable compiletime TODO messages" )
 
@@ -14,7 +20,8 @@ message( "WSI: " ${WSI} )
 
 # Compile shaders
 set( GLSL_DEBUG_FLAG $<$<CONFIG:Debug>:-g> )
-set( GLSL_COMPILER glslc -mfmt=num ${GLSL_DEBUG_FLAG} )
+set( GLSL_COMPILER ${Vulkan_GLSLC_EXECUTABLE} -mfmt=num ${GLSL_DEBUG_FLAG} )
+message(STATUS "GLSL_COMPILER : ${GLSL_COMPILER}")
 
 set(VERT_SHADER "${CMAKE_SOURCE_DIR}/src/shaders/hello_triangle.vert")
 set(VERT_SHADER_INCLUDE ${VERT_SHADER}.spv.inl)
